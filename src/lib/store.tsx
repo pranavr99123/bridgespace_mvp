@@ -1,7 +1,10 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useCallback, useEffect, useState } from "react";
+import { hasSupabaseEnv } from "@/lib/env";
+import { createClientSafe } from "@/lib/supabase/client";
 import { pulsePrompts } from "@/lib/prompt-data";
+import { LS_PARTNER_A, LS_PARTNER_B, LS_PARTNER_JOINED_CONFIRMED } from "@/lib/partner-storage";
 import type {
   CoupleState,
   MirrorState,
@@ -15,6 +18,8 @@ interface AppContextType {
   couple: CoupleState;
   pulse: PulseState;
   mirror: MirrorState;
+  partnerBJoinedConfirmed: boolean;
+  confirmPartnerJoined: () => void;
   setPartnerNames: (partnerAName: string, partnerBName: string) => void;
   updatePulse: (value: Partial<PulseState>) => void;
   updateMirror: (value: Partial<MirrorState>) => void;
@@ -80,19 +85,16 @@ const AppContext = createContext<AppContextType | null>(null);
 const score = (value: number, delta: number): number =>
   Math.max(0, Math.min(100, value + delta));
 
-const LS_A = "bridgespace-partner-a";
-const LS_B = "bridgespace-partner-b";
-const LS_B_LINKED = "bridgespace-partner-b-linked";
-
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [couple, setCouple] = useState<CoupleState>(initialCouple);
   const [pulse, setPulse] = useState<PulseState>(initialPulse);
   const [mirror, setMirror] = useState<MirrorState>(initialMirror);
+  const [partnerBJoinedConfirmed, setPartnerBJoinedConfirmed] = useState(false);
 
   useEffect(() => {
     try {
-      const a = localStorage.getItem(LS_A);
-      const b = localStorage.getItem(LS_B);
+      const a = localStorage.getItem(LS_PARTNER_A);
+      const b = localStorage.getItem(LS_PARTNER_B);
       if (a || b) {
         setCouple((prev) => ({
           ...prev,
@@ -100,18 +102,53 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           partnerBName: b || prev.partnerBName,
         }));
       }
+      const joined = localStorage.getItem(LS_PARTNER_JOINED_CONFIRMED) === "1";
+      const legacyLinked = localStorage.getItem("bridgespace-partner-b-linked") === "1";
+      if (!joined && legacyLinked && b && b !== "Partner B") {
+        localStorage.setItem(LS_PARTNER_JOINED_CONFIRMED, "1");
+        setPartnerBJoinedConfirmed(true);
+      } else {
+        setPartnerBJoinedConfirmed(joined);
+      }
     } catch {
       /* ignore */
     }
   }, []);
 
+  useEffect(() => {
+    if (!hasSupabaseEnv()) return;
+    const client = createClientSafe();
+    if (!client) return;
+    void client.auth.getUser().then(({ data: { user } }) => {
+      if (!user) return;
+      const meta = user.user_metadata as Record<string, string | undefined>;
+      const name = meta?.display_name || meta?.full_name || meta?.name || meta?.given_name;
+      if (!name) return;
+      setCouple((prev) => {
+        if (prev.partnerAName !== "Partner A") return prev;
+        try {
+          localStorage.setItem(LS_PARTNER_A, name);
+        } catch {
+          /* ignore */
+        }
+        return { ...prev, partnerAName: name };
+      });
+    });
+  }, []);
+
+  const confirmPartnerJoined = useCallback(() => {
+    try {
+      localStorage.setItem(LS_PARTNER_JOINED_CONFIRMED, "1");
+    } catch {
+      /* ignore */
+    }
+    setPartnerBJoinedConfirmed(true);
+  }, []);
+
   const setPartnerNames = (partnerAName: string, partnerBName: string) => {
     try {
-      localStorage.setItem(LS_A, partnerAName);
-      localStorage.setItem(LS_B, partnerBName);
-      if (partnerBName.trim() && partnerBName !== "Partner B") {
-        localStorage.setItem(LS_B_LINKED, "1");
-      }
+      localStorage.setItem(LS_PARTNER_A, partnerAName);
+      localStorage.setItem(LS_PARTNER_B, partnerBName);
     } catch {
       /* ignore */
     }
@@ -185,6 +222,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     couple,
     pulse,
     mirror,
+    partnerBJoinedConfirmed,
+    confirmPartnerJoined,
     setPartnerNames,
     updatePulse,
     updateMirror,

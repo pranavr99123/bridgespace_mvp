@@ -51,11 +51,6 @@ function PartnerAddModal({
         setBusy(false);
       }
     }
-    try {
-      if (b !== "Partner B" || inviteEmail.trim()) localStorage.setItem("bridgespace-partner-b-linked", "1");
-    } catch {
-      /* ignore */
-    }
     onClose();
   };
 
@@ -63,29 +58,36 @@ function PartnerAddModal({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-4" role="dialog">
-      <div className="card max-w-md p-5 w-full">
-        <h2 className="text-lg font-semibold">Add your partner</h2>
-        <p className="mt-1 text-sm subtle">Their name appears in the app. Optionally email them an invite.</p>
-        <label className="mt-3 block text-xs subtle">Partner name</label>
+      <div className="card max-w-md w-full border-[var(--accent-2)]/30 bg-[var(--panel)] p-5 shadow-2xl">
+        <h2 className="text-lg font-semibold text-[var(--accent-2)]">Add your partner</h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">
+          Save their name for when they join. Optionally send an email invite—they won’t appear in the top menu until you confirm they’ve joined (on Home).
+        </p>
+        <label className="mt-3 block text-xs text-[var(--muted)]">Partner name</label>
         <input
-          className="mt-1 w-full rounded-lg border border-[#34417a] bg-[#121a35] p-2"
-          placeholder="Partner B name"
+          className="mt-1 w-full rounded-xl border border-[var(--input-border)] bg-[var(--input-bg)] p-2"
+          placeholder="Their name"
           value={nameB}
           onChange={(e) => setNameB(e.target.value)}
         />
-        <label className="mt-3 block text-xs subtle">Invite by email (optional)</label>
+        <label className="mt-3 block text-xs text-[var(--muted)]">Invite by email (optional)</label>
         <input
-          className="mt-1 w-full rounded-lg border border-[#34417a] bg-[#121a35] p-2"
+          className="mt-1 w-full rounded-xl border border-[var(--input-border)] bg-[var(--input-bg)] p-2"
           placeholder="partner@email.com"
           type="email"
           value={inviteEmail}
           onChange={(e) => setInviteEmail(e.target.value)}
         />
         <div className="mt-4 flex gap-2 justify-end">
-          <button type="button" className="rounded-lg bg-[#233064] px-3 py-2 text-sm" onClick={onClose}>
+          <button type="button" className="rounded-full bg-[var(--panel-soft)] px-3 py-2 text-sm" onClick={onClose}>
             Cancel
           </button>
-          <button type="button" className="rounded-lg bg-accent px-3 py-2 text-sm text-[#09122a]" disabled={busy} onClick={save}>
+          <button
+            type="button"
+            className="rounded-full bg-gradient-to-r from-[#5dd9b9] to-[#7c9cff] px-3 py-2 text-sm font-medium text-white"
+            disabled={busy}
+            onClick={save}
+          >
             {busy ? "Sending…" : "Save"}
           </button>
         </div>
@@ -96,19 +98,10 @@ function PartnerAddModal({
 
 function Header() {
   const pathname = usePathname();
-  const { couple } = useAppStore();
+  const { couple, partnerBJoinedConfirmed } = useAppStore();
   const [addOpen, setAddOpen] = useState(false);
-  const [showPartnerPlus, setShowPartnerPlus] = useState(false);
 
-  useEffect(() => {
-    try {
-      const linked = localStorage.getItem("bridgespace-partner-b-linked") === "1";
-      const defaultB = couple.partnerBName === "Partner B" || !couple.partnerBName.trim();
-      setShowPartnerPlus(!linked && defaultB);
-    } catch {
-      setShowPartnerPlus(couple.partnerBName === "Partner B");
-    }
-  }, [couple.partnerBName]);
+  const showPartnerPlus = !partnerBJoinedConfirmed;
 
   const onLogout = async () => {
     try {
@@ -121,33 +114,42 @@ function Header() {
         const supabase = createClientSafe();
         await supabase?.auth.signOut();
       }
-      window.location.href = "/login";
+      window.location.href = "/";
     } catch {
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   };
 
   return (
     <>
-      <header className="border-b bg-[var(--header-bg)]" style={{ borderColor: "var(--header-border)" }}>
+      <header
+        className="border-b bg-[var(--header-bg)] shadow-[0_8px_40px_rgba(124,156,255,0.06)]"
+        style={{ borderColor: "var(--header-border)" }}
+      >
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4">
           <div>
-            <p className="text-sm font-semibold tracking-wide text-accent">Bridgespace</p>
-            <div className="mt-1 flex flex-wrap items-center gap-1 text-xs subtle">
-              <span>{couple.partnerAName}</span>
+            <p className="bg-gradient-to-r from-[var(--accent-gold)] via-[var(--accent-pink)] to-[var(--accent-2)] bg-clip-text text-sm font-bold tracking-wide text-transparent">
+              Bridgespace
+            </p>
+            <div className="mt-1 flex flex-wrap items-center gap-1 text-xs text-[var(--muted)]">
+              <span className="font-medium text-[var(--foreground)]">{couple.partnerAName}</span>
               {showPartnerPlus && (
                 <button
                   type="button"
-                  className="ml-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent/20 text-accent hover:bg-accent/30"
-                  title="Add partner"
-                  aria-label="Add partner"
+                  className="ml-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-[#ff8f7a]/30 to-[#7c9cff]/30 text-[var(--accent)] hover:from-[#ff8f7a]/50 hover:to-[#7c9cff]/40"
+                  title="Add or invite partner"
+                  aria-label="Add or invite partner"
                   onClick={() => setAddOpen(true)}
                 >
                   +
                 </button>
               )}
-              <span className="mx-1">·</span>
-              <span>{couple.partnerBName}</span>
+              {partnerBJoinedConfirmed && (
+                <>
+                  <span className="mx-1 text-[var(--muted)]">·</span>
+                  <span className="font-medium text-[var(--foreground)]">{couple.partnerBName}</span>
+                </>
+              )}
             </div>
           </div>
           <nav className="flex flex-wrap gap-2">
@@ -157,8 +159,10 @@ function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`rounded-full px-3 py-1 text-sm transition ${
-                    active ? "bg-accent text-white" : "bg-panel-soft text-[#c5d0f8] hover:bg-[#2d3a52]"
+                  className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
+                    active
+                      ? "bg-gradient-to-r from-[#7c9cff] to-[#5dd9b9] text-white shadow-md"
+                      : "bg-[var(--panel-soft)] text-[var(--foreground)] hover:ring-1 hover:ring-[var(--accent)]/40"
                   }`}
                 >
                   {link.label}
@@ -167,16 +171,19 @@ function Header() {
             })}
             <Link
               href="/settings"
-              className={`rounded-full px-3 py-1 text-sm transition ${
+              className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
                 pathname.startsWith("/settings")
-                  ? "bg-accent text-white"
-                  : "bg-panel-soft text-[#c5d0f8] hover:bg-[#2d3a52]"
+                  ? "bg-gradient-to-r from-[#ffd17a] to-[#ff8f7a] text-[#3a1a0d] shadow-md"
+                  : "bg-[var(--panel-soft)] text-[var(--foreground)] hover:ring-1 hover:ring-[var(--accent-warm)]/40"
               }`}
             >
               Settings
             </Link>
           </nav>
-          <button className="rounded-full bg-[#2b386f] px-3 py-2 text-xs" onClick={onLogout}>
+          <button
+            className="rounded-full border border-[var(--card-border)] bg-[var(--panel-soft)] px-3 py-2 text-xs font-medium"
+            onClick={onLogout}
+          >
             Logout
           </button>
         </div>
@@ -188,12 +195,16 @@ function Header() {
 
 function AppShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const hideHeader = pathname === "/login";
+  const hideHeader = pathname === "/login" || pathname === "/signup" || pathname === "/";
 
   return (
     <>
       {!hideHeader && <Header />}
-      <main className={`mx-auto w-full max-w-6xl flex-1 px-5 py-6 ${hideHeader ? "pt-10" : ""}`}>{children}</main>
+      <main
+        className={`mx-auto w-full max-w-6xl flex-1 px-5 py-6 ${hideHeader ? "max-w-none px-0 py-0" : ""}`}
+      >
+        {children}
+      </main>
     </>
   );
 }

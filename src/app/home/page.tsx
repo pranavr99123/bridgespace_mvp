@@ -5,10 +5,11 @@ import Link from "next/link";
 import { HeartBurst } from "@/components/ui/HeartBurst";
 import { FirstRunGuide } from "@/components/onboarding/FirstRunGuide";
 import { Portrait } from "@/components/portrait/Portrait";
+import { LS_PARTNER_A, LS_PARTNER_B } from "@/lib/partner-storage";
 import { useAppStore } from "@/lib/store";
 
 export default function HomePage() {
-  const { couple, setPartnerNames } = useAppStore();
+  const { couple, setPartnerNames, partnerBJoinedConfirmed, confirmPartnerJoined } = useAppStore();
   const [showIntro, setShowIntro] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
     return !sessionStorage.getItem("bridgespace-intro-shown");
@@ -24,23 +25,25 @@ export default function HomePage() {
     const pendingInvite = sessionStorage.getItem("bridgespace-pending-invite");
     let b = "Partner B";
     try {
-      const stored = localStorage.getItem("bridgespace-partner-b");
+      const stored = localStorage.getItem(LS_PARTNER_B);
       if (stored) b = stored;
     } catch {
       /* ignore */
     }
+    let googleName: string | null = null;
     if (pendingNameRaw) {
       sessionStorage.removeItem("bridgespace-pending-name");
+      googleName = pendingNameRaw;
       setPartnerAName(pendingNameRaw);
       setPartnerNames(pendingNameRaw, b);
     }
     if (pendingInvite) {
       sessionStorage.removeItem("bridgespace-pending-invite");
       const inviter =
-        pendingNameRaw ||
+        googleName ||
         (() => {
           try {
-            return localStorage.getItem("bridgespace-partner-a") || "Your partner";
+            return localStorage.getItem(LS_PARTNER_A) || "Your partner";
           } catch {
             return "Your partner";
           }
@@ -52,6 +55,11 @@ export default function HomePage() {
       });
     }
   }, [setPartnerNames]);
+
+  useEffect(() => {
+    setPartnerAName(couple.partnerAName);
+    setPartnerBName(couple.partnerBName);
+  }, [couple.partnerAName, couple.partnerBName]);
 
   useEffect(() => {
     if (!showIntro) return;
@@ -88,11 +96,12 @@ export default function HomePage() {
       <FirstRunGuide />
       <div className="grid gap-5 lg:grid-cols-3">
         <div className="space-y-5 lg:col-span-2">
-          <section className="card p-4">
+          <section className="card border-l-4 border-l-[var(--accent-warm)] bg-gradient-to-br from-[var(--panel)] to-[#1e2640] p-4">
             <h2 className="text-lg font-semibold">How to use Bridgespace</h2>
-            <p className="mt-2 text-sm subtle">
-              Use <strong>Pulse</strong> for daily connection and <strong>Mirror</strong> for empathy practice.
-              Completed sessions go to <strong>Vault</strong>, and <strong>Signal</strong> shows your communication patterns.
+            <p className="mt-2 text-sm text-[var(--muted)]">
+              Use <strong className="text-[var(--accent-gold)]">Pulse</strong> for daily connection and{" "}
+              <strong className="text-[var(--accent-2)]">Mirror</strong> for empathy practice. Sessions go to{" "}
+              <strong className="text-[var(--accent)]">Vault</strong>, and <strong className="text-[var(--accent-pink)]">Signal</strong> surfaces patterns.
             </p>
           </section>
           <Portrait state={couple.portrait} />
@@ -109,31 +118,52 @@ export default function HomePage() {
             </ul>
           </section>
         </div>
-        <aside className="card p-4">
-          <h2 className="text-xl font-semibold">Partner names</h2>
-          <p className="mt-2 text-sm subtle">Set the names used throughout the app.</p>
-          <div className="mt-3 grid gap-2">
-            <input
-              className="rounded-lg border border-[#34417a] bg-[#121a35] p-2"
-              value={partnerAName}
-              onChange={(e) => setPartnerAName(e.target.value)}
-              placeholder="Partner A name"
-            />
-            <input
-              className="rounded-lg border border-[#34417a] bg-[#121a35] p-2"
-              value={partnerBName}
-              onChange={(e) => setPartnerBName(e.target.value)}
-              placeholder="Partner B name"
-            />
-            <span className="inline-flex items-center gap-2">
-              <button className="rounded-lg bg-[#233064] px-3 py-2 text-center" onClick={saveNames}>
-                Save names
+        <aside className="space-y-4">
+          {!partnerBJoinedConfirmed && (
+            <div className="card border border-[var(--accent-2)]/40 bg-gradient-to-br from-[#0d2a24]/40 to-[var(--panel)] p-4">
+              <h2 className="text-lg font-semibold text-[var(--accent-2)]">Partner not in your menu yet?</h2>
+              <p className="mt-2 text-sm text-[var(--muted)]">
+                After they accept your invite and join Bridgespace, confirm here so their name appears in the top bar next to yours.
+              </p>
+              <button
+                type="button"
+                className="mt-3 w-full rounded-full bg-gradient-to-r from-[#5dd9b9] to-[#7c9cff] py-2.5 text-sm font-semibold text-[#06221c]"
+                onClick={confirmPartnerJoined}
+              >
+                My partner has joined — show them in the app
               </button>
-              {heartBurst && <HeartBurst inline onComplete={() => setHeartBurst(false)} />}
-            </span>
+            </div>
+          )}
+          <div className="card p-4">
+            <h2 className="text-xl font-semibold">Names in the app</h2>
+            <p className="mt-2 text-sm text-[var(--muted)]">How you and your partner appear in Pulse, Mirror, and elsewhere.</p>
+            <div className="mt-3 grid gap-2">
+              <input
+                className="rounded-xl border border-[var(--input-border)] bg-[var(--input-bg)] p-2"
+                value={partnerAName}
+                onChange={(e) => setPartnerAName(e.target.value)}
+                placeholder="Your name"
+              />
+              <input
+                className="rounded-xl border border-[var(--input-border)] bg-[var(--input-bg)] p-2"
+                value={partnerBName}
+                onChange={(e) => setPartnerBName(e.target.value)}
+                placeholder="Partner’s name (optional until they join)"
+              />
+              <span className="inline-flex items-center gap-2">
+                <button
+                  className="rounded-full bg-gradient-to-r from-[#7c9cff] to-[#5dd9b9] px-4 py-2 text-center text-sm font-medium text-white"
+                  onClick={saveNames}
+                >
+                  Save names
+                </button>
+                {heartBurst && <HeartBurst inline onComplete={() => setHeartBurst(false)} />}
+              </span>
+            </div>
           </div>
 
-          <h2 className="text-xl font-semibold mt-6">Today&apos;s Pulse</h2>
+          <div className="card p-4">
+          <h2 className="text-xl font-semibold">Today&apos;s Pulse</h2>
           <p className="mt-2 subtle">
             {couple.pulseTodayCompleted
               ? "Completed for today."
@@ -143,12 +173,19 @@ export default function HomePage() {
             Goal: one small emotional bid and one response. It keeps connection alive without a long talk.
           </p>
           <div className="mt-4 grid gap-2">
-            <Link className="rounded-lg bg-accent px-3 py-2 text-center text-[#09122a]" href="/pulse">
+            <Link
+              className="rounded-full bg-gradient-to-r from-[#ffd17a] to-[#ff8f7a] px-3 py-2.5 text-center text-sm font-semibold text-[#3a1a0d]"
+              href="/pulse"
+            >
               Start Pulse
             </Link>
-            <Link className="rounded-lg bg-[#233064] px-3 py-2 text-center" href="/mirror">
+            <Link
+              className="rounded-full border border-[var(--accent-2)]/50 bg-[var(--panel-soft)] px-3 py-2.5 text-center text-sm font-medium text-[var(--accent-2)]"
+              href="/mirror"
+            >
               Start Mirror
             </Link>
+          </div>
           </div>
         </aside>
       </div>
