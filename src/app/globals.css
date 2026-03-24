@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f1419;
+  --foreground: #e8eef7;
+  --muted: #8b9dc3;
+  --panel: #1a2332;
+  --panel-soft: #243044;
+  --accent: #7c9cff;
+  --accent-2: #5dd9b9;
+  --accent-warm: #ff8f7a;
+  --accent-pink: #ff6b8a;
+  --accent-gold: #ffd17a;
+  --danger: #f29da7;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-panel: var(--panel);
+  --color-panel-soft: var(--panel-soft);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-warm: var(--accent-warm);
+  --color-accent-pink: var(--accent-pink);
+  --color-accent-gold: var(--accent-gold);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid #26315e;
+  border-radius: 14px;
+}
+
+.subtle {
+  color: var(--muted);
+}
+
+.heart-burst-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.heart-burst-wrapper .heart-icon {
+  font-size: 2.5rem;
+  color: #ff6b8a;
+  animation: heart-pop 0.6s ease-out forwards;
+  z-index: 2;
+}
+.heart-burst-wrapper .heart-ring {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  margin-top: -30px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: heart-ring 0.9s ease-out forwards;
+}
+.heart-ring-1 { border: 2px solid #ff6b8a; animation-delay: 0.05s; }
+.heart-ring-2 { border: 2px solid #ffb88c; animation-delay: 0.1s; width: 80px; height: 80px; margin-left: -40px; margin-top: -40px; }
+.heart-ring-3 { border: 2px solid #83e0c6; animation-delay: 0.15s; width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; }
+@keyframes heart-pop {
+  0% { transform: scale(0.3); opacity: 0.8; }
+  50% { transform: scale(1.4); }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes heart-ring {
+  0% { transform: scale(0.3); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.heart-burst-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: heart-pop-sm 0.4s ease-out;
+}
+.heart-icon-sm {
+  font-size: 0.875rem;
+  color: #ff6b8a;
+}
+@keyframes heart-pop-sm {
+  0% { transform: scale(0.2); opacity: 0.8; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
