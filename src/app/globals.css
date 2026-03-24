@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-:root {
+:root,
+[data-theme="dark"] {
   --background: #0f1419;
   --foreground: #e8eef7;
   --muted: #8b9dc3;
@@ -12,6 +13,30 @@
   --accent-pink: #ff6b8a;
   --accent-gold: #ffd17a;
   --danger: #f29da7;
+  --card-border: #26315e;
+  --header-bg: #1a2332;
+  --header-border: #2d3a52;
+  --input-bg: #121a35;
+  --input-border: #34417a;
+}
+
+[data-theme="light"] {
+  --background: #f4f6fb;
+  --foreground: #0f1419;
+  --muted: #5c6b8a;
+  --panel: #ffffff;
+  --panel-soft: #e8edf7;
+  --accent: #4d6ef5;
+  --accent-2: #0d9f8e;
+  --accent-warm: #e85d4a;
+  --accent-pink: #e8437a;
+  --accent-gold: #d9a520;
+  --danger: #c73e4f;
+  --card-border: #d8e0f0;
+  --header-bg: #ffffff;
+  --header-border: #d8e0f0;
+  --input-bg: #ffffff;
+  --input-border: #c5cee0;
 }
 
 @theme inline {
@@ -42,7 +67,7 @@ body {
 
 .card {
   background: var(--panel);
-  border: 1px solid #26315e;
+  border: 1px solid var(--card-border);
   border-radius: 14px;
 }
 

@@ -19,6 +19,41 @@ export default function HomePage() {
   const [heartBurst, setHeartBurst] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const pendingNameRaw = sessionStorage.getItem("bridgespace-pending-name");
+    const pendingInvite = sessionStorage.getItem("bridgespace-pending-invite");
+    let b = "Partner B";
+    try {
+      const stored = localStorage.getItem("bridgespace-partner-b");
+      if (stored) b = stored;
+    } catch {
+      /* ignore */
+    }
+    if (pendingNameRaw) {
+      sessionStorage.removeItem("bridgespace-pending-name");
+      setPartnerAName(pendingNameRaw);
+      setPartnerNames(pendingNameRaw, b);
+    }
+    if (pendingInvite) {
+      sessionStorage.removeItem("bridgespace-pending-invite");
+      const inviter =
+        pendingNameRaw ||
+        (() => {
+          try {
+            return localStorage.getItem("bridgespace-partner-a") || "Your partner";
+          } catch {
+            return "Your partner";
+          }
+        })();
+      void fetch("/api/invites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to: pendingInvite, inviterName: inviter }),
+      });
+    }
+  }, [setPartnerNames]);
+
+  useEffect(() => {
     if (!showIntro) return;
     const startFade = window.setTimeout(() => setIntroFading(true), 1600);
     const hide = window.setTimeout(() => {

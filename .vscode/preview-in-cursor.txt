@@ -1,0 +1,17 @@
+Preview Bridgespace inside Cursor
+================================
+
+1. In Cursor, open THIS folder as the workspace root:
+   File → Open Folder → select "bridgespace-mvp"
+
+2. Start the app:
+   Terminal menu → Run Task… → choose "Bridgespace: dev server"
+   Wait until the terminal shows "Ready" and a Local: http://localhost URL.
+
+3. Open the in-editor browser:
+   Ctrl+Shift+P (Command Palette)
+   Type: Simple Browser: Show
+   Enter URL: http://localhost:3000
+   (If port 3000 is busy, use the port shown in the terminal, e.g. http://localhost:3001)
+
+Tip: Command Prompt is set as the default terminal so npm is not blocked by PowerShell scripts.

@@ -185,7 +185,7 @@ export default function SignalPage() {
   if (items.length === 0 && vault.length === 0) {
     return (
       <section className="card p-5">
-        <h2 className="text-xl font-semibold">The Signal</h2>
+        <h2 className="text-xl font-semibold">Signal</h2>
         <p className="mt-2 text-sm subtle">
           Signal translates session history into plain-language communication patterns so you can adjust faster.
         </p>
@@ -196,7 +196,7 @@ export default function SignalPage() {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl font-semibold">The Signal</h2>
+      <h2 className="text-xl font-semibold">Signal</h2>
       <p className="text-sm subtle">
         Read each pattern, discuss whether it feels true, and test one small behavior change in your next session.
       </p>

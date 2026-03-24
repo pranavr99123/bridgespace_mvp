@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { pulsePrompts } from "@/lib/prompt-data";
 import type {
   CoupleState,
@@ -80,13 +80,43 @@ const AppContext = createContext<AppContextType | null>(null);
 const score = (value: number, delta: number): number =>
   Math.max(0, Math.min(100, value + delta));
 
+const LS_A = "bridgespace-partner-a";
+const LS_B = "bridgespace-partner-b";
+const LS_B_LINKED = "bridgespace-partner-b-linked";
+
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [couple, setCouple] = useState<CoupleState>(initialCouple);
   const [pulse, setPulse] = useState<PulseState>(initialPulse);
   const [mirror, setMirror] = useState<MirrorState>(initialMirror);
 
-  const setPartnerNames = (partnerAName: string, partnerBName: string) =>
+  useEffect(() => {
+    try {
+      const a = localStorage.getItem(LS_A);
+      const b = localStorage.getItem(LS_B);
+      if (a || b) {
+        setCouple((prev) => ({
+          ...prev,
+          partnerAName: a || prev.partnerAName,
+          partnerBName: b || prev.partnerBName,
+        }));
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const setPartnerNames = (partnerAName: string, partnerBName: string) => {
+    try {
+      localStorage.setItem(LS_A, partnerAName);
+      localStorage.setItem(LS_B, partnerBName);
+      if (partnerBName.trim() && partnerBName !== "Partner B") {
+        localStorage.setItem(LS_B_LINKED, "1");
+      }
+    } catch {
+      /* ignore */
+    }
     setCouple((prev) => ({ ...prev, partnerAName, partnerBName }));
+  };
 
   const updatePulse = (value: Partial<PulseState>) =>
     setPulse((prev) => ({ ...prev, ...value }));
