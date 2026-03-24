@@ -6,8 +6,8 @@ import { useSignal } from "@/lib/hooks/useSignal";
 import { useVault } from "@/lib/hooks/useVault";
 import { hasHarshOrExpletiveLanguage } from "@/lib/word-sentiment";
 
-/** Periwinkle / slate family so word clouds stay on-brand */
-const BUBBLE_COLORS = ["#8b9fd4", "#7a88c9", "#6b7fd1", "#9aa3c8", "#a090c4", "#b0889a"];
+/** Cohesive accents: blue, sage, rose, gold — not rainbow */
+const BUBBLE_COLORS = ["#94a8e0", "#7aab9f", "#c49aab", "#c9ae8c", "#7b8fd8", "#a89872"];
 
 const FALLBACK_SUGGESTIONS = [
   "Before your next Mirror, try naming one exact feeling word before reflecting.",

@@ -2,35 +2,37 @@
 
 :root,
 [data-theme="dark"] {
-  --background: #0c1017;
-  --foreground: #e6eaf3;
-  --muted: #8b95ad;
-  --panel: #151b28;
-  --panel-soft: #1c2433;
-  --accent: #8b9fd4;
-  --accent-2: #6b7fd1;
-  --accent-warm: #a8947c;
-  --accent-pink: #b0889a;
-  --accent-gold: #9a8f6e;
+  --background: #121a28;
+  --foreground: #e8ecf4;
+  --muted: #909ab5;
+  --panel: #1a2233;
+  --panel-soft: #222c40;
+  --accent: #94a8e0;
+  --accent-2: #7b8fd8;
+  --accent-warm: #c9ae8c;
+  --accent-pink: #c49aab;
+  --accent-sage: #7aab9f;
+  --accent-gold: #a89872;
   --danger: #c97a84;
-  --card-border: #2a3348;
-  --header-bg: #121826;
-  --header-border: #2a3348;
-  --input-bg: #141b28;
-  --input-border: #343e54;
+  --card-border: #323c52;
+  --header-bg: #171f2e;
+  --header-border: #323c52;
+  --input-bg: #1a2230;
+  --input-border: #3d475e;
 }
 
 [data-theme="light"] {
-  --background: #f5f6fa;
+  --background: #f4f5fa;
   --foreground: #141922;
-  --muted: #5c6478;
+  --muted: #5a6278;
   --panel: #ffffff;
-  --panel-soft: #eef1f8;
-  --accent: #5c6eb5;
-  --accent-2: #4a5fa8;
-  --accent-warm: #8a7a62;
-  --accent-pink: #8f6b7a;
-  --accent-gold: #7d7358;
+  --panel-soft: #eef0f9;
+  --accent: #5f73c4;
+  --accent-2: #4d62b8;
+  --accent-warm: #9a7f5c;
+  --accent-pink: #9d6b7f;
+  --accent-sage: #4d8f82;
+  --accent-gold: #8a7a58;
   --danger: #b54a58;
   --card-border: #dde2ec;
   --header-bg: #ffffff;
@@ -40,7 +42,9 @@
 }
 
 [data-theme="light"] body {
-  background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(92, 110, 181, 0.07), transparent 58%);
+  background-image:
+    radial-gradient(ellipse 120% 80% at 50% -22%, rgba(95, 115, 196, 0.09), transparent 58%),
+    radial-gradient(ellipse 55% 45% at 92% 18%, rgba(196, 154, 171, 0.06), transparent 52%);
 }
 
 @theme inline {
@@ -53,6 +57,7 @@
   --color-accent-2: var(--accent-2);
   --color-accent-warm: var(--accent-warm);
   --color-accent-pink: var(--accent-pink);
+  --color-accent-sage: var(--accent-sage);
   --color-accent-gold: var(--accent-gold);
   --color-danger: var(--danger);
   --font-sans: var(--font-geist-sans);
@@ -63,12 +68,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  background-image: radial-gradient(ellipse 110% 70% at 50% -25%, rgba(139, 159, 212, 0.09), transparent 55%);
+  background-image:
+    radial-gradient(ellipse 110% 72% at 50% -24%, rgba(148, 168, 224, 0.11), transparent 56%),
+    radial-gradient(ellipse 50% 42% at 8% 55%, rgba(122, 171, 159, 0.06), transparent 50%);
   background-attachment: fixed;
 }
 
 .landing-glow {
-  background: radial-gradient(ellipse 85% 55% at 50% 0%, rgba(139, 159, 212, 0.14), transparent 52%);
+  background:
+    radial-gradient(ellipse 82% 52% at 50% 0%, rgba(148, 168, 224, 0.18), transparent 52%),
+    radial-gradient(ellipse 48% 38% at 92% 28%, rgba(196, 154, 171, 0.1), transparent 50%),
+    radial-gradient(ellipse 42% 36% at 6% 72%, rgba(201, 174, 140, 0.07), transparent 48%);
 }
 
 * {

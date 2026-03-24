@@ -123,12 +123,12 @@ function Header() {
   return (
     <>
       <header
-        className="border-b bg-[var(--header-bg)] shadow-[0_8px_40px_rgba(124,156,255,0.06)]"
+        className="border-b bg-[var(--header-bg)] shadow-[0_6px_28px_rgba(0,0,0,0.1)]"
         style={{ borderColor: "var(--header-border)" }}
       >
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4">
           <div>
-            <p className="text-sm font-bold tracking-wide text-[var(--foreground)]">
+            <p className="bg-gradient-to-r from-[var(--accent)] via-[var(--accent-2)] to-[var(--accent-pink)] bg-clip-text text-sm font-bold tracking-wide text-transparent">
               Bridgespace
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-1 text-xs text-[var(--muted)]">

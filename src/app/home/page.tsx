@@ -99,10 +99,10 @@ export default function HomePage() {
           <section className="card border-l-4 border-l-[var(--accent)] bg-[var(--panel)] p-4">
             <h2 className="text-lg font-semibold">How to use Bridgespace</h2>
             <p className="mt-2 text-sm text-[var(--muted)]">
-              Use <strong className="font-semibold text-[var(--foreground)]">Pulse</strong> for daily connection and{" "}
-              <strong className="font-semibold text-[var(--foreground)]">Mirror</strong> for empathy practice. Sessions go to{" "}
-              <strong className="font-semibold text-[var(--foreground)]">Vault</strong>, and{" "}
-              <strong className="font-semibold text-[var(--foreground)]">Signal</strong> surfaces patterns.
+              Use <strong className="font-semibold text-[var(--accent)]">Pulse</strong> for daily connection and{" "}
+              <strong className="font-semibold text-[var(--accent-sage)]">Mirror</strong> for empathy practice. Sessions go to{" "}
+              <strong className="font-semibold text-[var(--accent-gold)]">Vault</strong>, and{" "}
+              <strong className="font-semibold text-[var(--accent-pink)]">Signal</strong> surfaces patterns.
             </p>
           </section>
           <Portrait state={couple.portrait} />
