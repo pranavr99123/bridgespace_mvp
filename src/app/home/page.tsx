@@ -83,25 +83,26 @@ export default function HomePage() {
     <>
       {showIntro && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0b1020] transition-opacity duration-1000 ease-out"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)] transition-opacity duration-1000 ease-out"
           style={{ opacity: introFading ? 0 : 1 }}
         >
           <div className="text-center transition-opacity duration-700" style={{ opacity: introFading ? 0 : 1 }}>
-            <div className="mx-auto mb-4 h-24 w-24 rounded-full bg-gradient-to-b from-[#ffd17a] to-[#ff8f7a] shadow-[0_0_80px_#ffb08a] animate-pulse" />
-            <h1 className="text-3xl font-semibold">Welcome to Bridgespace</h1>
-            <p className="mt-2 text-[#9ca8d4]">A warmer way to communicate, one conversation at a time.</p>
+            <div className="mx-auto mb-4 h-24 w-24 rounded-full bg-[var(--accent)]/35 shadow-[0_0_64px_rgba(139,159,212,0.35)] ring-1 ring-[var(--accent)]/25 animate-pulse" />
+            <h1 className="text-3xl font-semibold text-[var(--foreground)]">Welcome to Bridgespace</h1>
+            <p className="mt-2 text-[var(--muted)]">A warmer way to communicate, one conversation at a time.</p>
           </div>
         </div>
       )}
       <FirstRunGuide />
       <div className="grid gap-5 lg:grid-cols-3">
         <div className="space-y-5 lg:col-span-2">
-          <section className="card border-l-4 border-l-[var(--accent-warm)] bg-gradient-to-br from-[var(--panel)] to-[#1e2640] p-4">
+          <section className="card border-l-4 border-l-[var(--accent)] bg-[var(--panel)] p-4">
             <h2 className="text-lg font-semibold">How to use Bridgespace</h2>
             <p className="mt-2 text-sm text-[var(--muted)]">
-              Use <strong className="text-[var(--accent-gold)]">Pulse</strong> for daily connection and{" "}
-              <strong className="text-[var(--accent-2)]">Mirror</strong> for empathy practice. Sessions go to{" "}
-              <strong className="text-[var(--accent)]">Vault</strong>, and <strong className="text-[var(--accent-pink)]">Signal</strong> surfaces patterns.
+              Use <strong className="font-semibold text-[var(--foreground)]">Pulse</strong> for daily connection and{" "}
+              <strong className="font-semibold text-[var(--foreground)]">Mirror</strong> for empathy practice. Sessions go to{" "}
+              <strong className="font-semibold text-[var(--foreground)]">Vault</strong>, and{" "}
+              <strong className="font-semibold text-[var(--foreground)]">Signal</strong> surfaces patterns.
             </p>
           </section>
           <Portrait state={couple.portrait} />
@@ -120,14 +121,14 @@ export default function HomePage() {
         </div>
         <aside className="space-y-4">
           {!partnerBJoinedConfirmed && (
-            <div className="card border border-[var(--accent-2)]/40 bg-gradient-to-br from-[#0d2a24]/40 to-[var(--panel)] p-4">
-              <h2 className="text-lg font-semibold text-[var(--accent-2)]">Partner not in your menu yet?</h2>
+            <div className="card border border-[var(--card-border)] bg-[var(--panel-soft)]/80 p-4">
+              <h2 className="text-lg font-semibold text-[var(--foreground)]">Partner not in your menu yet?</h2>
               <p className="mt-2 text-sm text-[var(--muted)]">
                 After they accept your invite and join Bridgespace, confirm here so their name appears in the top bar next to yours.
               </p>
               <button
                 type="button"
-                className="mt-3 w-full rounded-full bg-gradient-to-r from-[#5dd9b9] to-[#7c9cff] py-2.5 text-sm font-semibold text-[#06221c]"
+                className="mt-3 w-full rounded-full bg-[var(--accent)] py-2.5 text-sm font-semibold text-white hover:brightness-[1.06]"
                 onClick={confirmPartnerJoined}
               >
                 My partner has joined — show them in the app
@@ -152,7 +153,7 @@ export default function HomePage() {
               />
               <span className="inline-flex items-center gap-2">
                 <button
-                  className="rounded-full bg-gradient-to-r from-[#7c9cff] to-[#5dd9b9] px-4 py-2 text-center text-sm font-medium text-white"
+                  className="rounded-full bg-[var(--accent)] px-4 py-2 text-center text-sm font-medium text-white hover:brightness-[1.06]"
                   onClick={saveNames}
                 >
                   Save names
@@ -174,13 +175,13 @@ export default function HomePage() {
           </p>
           <div className="mt-4 grid gap-2">
             <Link
-              className="rounded-full bg-gradient-to-r from-[#ffd17a] to-[#ff8f7a] px-3 py-2.5 text-center text-sm font-semibold text-[#3a1a0d]"
+              className="rounded-full bg-[var(--accent)] px-3 py-2.5 text-center text-sm font-semibold text-white hover:brightness-[1.06]"
               href="/pulse"
             >
               Start Pulse
             </Link>
             <Link
-              className="rounded-full border border-[var(--accent-2)]/50 bg-[var(--panel-soft)] px-3 py-2.5 text-center text-sm font-medium text-[var(--accent-2)]"
+              className="rounded-full border border-[var(--card-border)] bg-[var(--panel-soft)] px-3 py-2.5 text-center text-sm font-medium text-[var(--foreground)] hover:ring-1 hover:ring-[var(--accent)]/30"
               href="/mirror"
             >
               Start Mirror

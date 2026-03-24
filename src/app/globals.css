@@ -2,48 +2,45 @@
 
 :root,
 [data-theme="dark"] {
-  --background: #0f1419;
-  --foreground: #e8eef7;
-  --muted: #8b9dc3;
-  --panel: #1a2332;
-  --panel-soft: #243044;
-  --accent: #7c9cff;
-  --accent-2: #5dd9b9;
-  --accent-warm: #ff8f7a;
-  --accent-pink: #ff6b8a;
-  --accent-gold: #ffd17a;
-  --danger: #f29da7;
-  --card-border: #26315e;
-  --header-bg: #1a2332;
-  --header-border: #2d3a52;
-  --input-bg: #121a35;
-  --input-border: #34417a;
+  --background: #0c1017;
+  --foreground: #e6eaf3;
+  --muted: #8b95ad;
+  --panel: #151b28;
+  --panel-soft: #1c2433;
+  --accent: #8b9fd4;
+  --accent-2: #6b7fd1;
+  --accent-warm: #a8947c;
+  --accent-pink: #b0889a;
+  --accent-gold: #9a8f6e;
+  --danger: #c97a84;
+  --card-border: #2a3348;
+  --header-bg: #121826;
+  --header-border: #2a3348;
+  --input-bg: #141b28;
+  --input-border: #343e54;
 }
 
 [data-theme="light"] {
-  --background: #f4f6fb;
-  --foreground: #0f1419;
-  --muted: #5c6b8a;
+  --background: #f5f6fa;
+  --foreground: #141922;
+  --muted: #5c6478;
   --panel: #ffffff;
-  --panel-soft: #e8edf7;
-  --accent: #4d6ef5;
-  --accent-2: #0d9f8e;
-  --accent-warm: #e85d4a;
-  --accent-pink: #e8437a;
-  --accent-gold: #d9a520;
-  --danger: #c73e4f;
-  --card-border: #d8e0f0;
+  --panel-soft: #eef1f8;
+  --accent: #5c6eb5;
+  --accent-2: #4a5fa8;
+  --accent-warm: #8a7a62;
+  --accent-pink: #8f6b7a;
+  --accent-gold: #7d7358;
+  --danger: #b54a58;
+  --card-border: #dde2ec;
   --header-bg: #ffffff;
-  --header-border: #d8e0f0;
+  --header-border: #e2e6f0;
   --input-bg: #ffffff;
-  --input-border: #c5cee0;
+  --input-border: #c8cfde;
 }
 
 [data-theme="light"] body {
-  background-image:
-    radial-gradient(ellipse 100% 70% at 50% -25%, rgba(77, 110, 245, 0.1), transparent 55%),
-    radial-gradient(ellipse 55% 45% at 100% 15%, rgba(232, 67, 122, 0.06), transparent 50%),
-    radial-gradient(ellipse 45% 40% at 0% 75%, rgba(13, 159, 142, 0.06), transparent 45%);
+  background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(92, 110, 181, 0.07), transparent 58%);
 }
 
 @theme inline {
@@ -66,19 +63,12 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  background-image:
-    radial-gradient(ellipse 100% 80% at 50% -30%, rgba(124, 156, 255, 0.12), transparent 55%),
-    radial-gradient(ellipse 60% 50% at 100% 20%, rgba(255, 107, 138, 0.08), transparent 50%),
-    radial-gradient(ellipse 50% 40% at 0% 80%, rgba(93, 217, 185, 0.07), transparent 45%);
+  background-image: radial-gradient(ellipse 110% 70% at 50% -25%, rgba(139, 159, 212, 0.09), transparent 55%);
   background-attachment: fixed;
 }
 
 .landing-glow {
-  background:
-    radial-gradient(ellipse 90% 70% at 50% -15%, rgba(255, 209, 122, 0.35), transparent 55%),
-    radial-gradient(ellipse 55% 45% at 95% 35%, rgba(255, 107, 138, 0.22), transparent 50%),
-    radial-gradient(ellipse 50% 45% at 5% 55%, rgba(93, 217, 185, 0.2), transparent 50%),
-    radial-gradient(ellipse 70% 50% at 70% 100%, rgba(124, 156, 255, 0.15), transparent 55%);
+  background: radial-gradient(ellipse 85% 55% at 50% 0%, rgba(139, 159, 212, 0.14), transparent 52%);
 }
 
 * {
@@ -105,7 +95,7 @@ body {
 }
 .heart-burst-wrapper .heart-icon {
   font-size: 2.5rem;
-  color: #ff6b8a;
+  color: var(--accent-pink);
   animation: heart-pop 0.6s ease-out forwards;
   z-index: 2;
 }
@@ -119,9 +109,9 @@ body {
   opacity: 0;
   animation: heart-ring 0.9s ease-out forwards;
 }
-.heart-ring-1 { border: 2px solid #ff6b8a; animation-delay: 0.05s; }
-.heart-ring-2 { border: 2px solid #ffb88c; animation-delay: 0.1s; width: 80px; height: 80px; margin-left: -40px; margin-top: -40px; }
-.heart-ring-3 { border: 2px solid #83e0c6; animation-delay: 0.15s; width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; }
+.heart-ring-1 { border: 2px solid var(--accent-pink); animation-delay: 0.05s; opacity: 0.9; }
+.heart-ring-2 { border: 2px solid var(--accent-pink); animation-delay: 0.1s; width: 80px; height: 80px; margin-left: -40px; margin-top: -40px; opacity: 0.55; }
+.heart-ring-3 { border: 2px solid var(--accent); animation-delay: 0.15s; width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; opacity: 0.35; }
 @keyframes heart-pop {
   0% { transform: scale(0.3); opacity: 0.8; }
   50% { transform: scale(1.4); }
@@ -141,7 +131,7 @@ body {
 }
 .heart-icon-sm {
   font-size: 0.875rem;
-  color: #ff6b8a;
+  color: var(--accent-pink);
 }
 @keyframes heart-pop-sm {
   0% { transform: scale(0.2); opacity: 0.8; }

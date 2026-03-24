@@ -6,7 +6,8 @@ import { useSignal } from "@/lib/hooks/useSignal";
 import { useVault } from "@/lib/hooks/useVault";
 import { hasHarshOrExpletiveLanguage } from "@/lib/word-sentiment";
 
-const BUBBLE_COLORS = ["#ff6b8a", "#ffb88c", "#83e0c6", "#89a8ff", "#c5a3ff", "#ffd17a"];
+/** Periwinkle / slate family so word clouds stay on-brand */
+const BUBBLE_COLORS = ["#8b9fd4", "#7a88c9", "#6b7fd1", "#9aa3c8", "#a090c4", "#b0889a"];
 
 const FALLBACK_SUGGESTIONS = [
   "Before your next Mirror, try naming one exact feeling word before reflecting.",
@@ -222,7 +223,7 @@ export default function SignalPage() {
         </div>
       )}
 
-      <div className="card p-4 border-l-4 border-[#83e0c6]">
+      <div className="card border-l-4 border-l-[var(--accent)] p-4">
         <h3 className="font-semibold mb-2">One small behavior change before your next session</h3>
         <p className="text-sm">{insightsLoading ? "Analyzing patterns..." : behaviorChange}</p>
       </div>

@@ -78,7 +78,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-[85vh] items-center justify-center px-5 py-12">
-    <section className="auth-card w-full max-w-md rounded-2xl border border-[var(--card-border)] bg-[var(--panel)]/90 p-6 shadow-[0_24px_80px_rgba(124,156,255,0.12)] backdrop-blur-md">
+    <section className="auth-card w-full max-w-md rounded-2xl border border-[var(--card-border)] bg-[var(--panel)]/90 p-6 shadow-[0_20px_64px_rgba(0,0,0,0.14)] backdrop-blur-md">
       <h1 className="text-2xl font-semibold">Welcome back</h1>
       <p className="mt-1 text-sm text-[var(--muted)]">Sign in to continue to your space.</p>
 
@@ -116,7 +116,7 @@ export default function LoginPage() {
 
       <button
         type="button"
-        className="mt-5 w-full rounded-full bg-gradient-to-r from-[#5dd9b9] via-[#7c9cff] to-[#ff6b8a] py-3 font-semibold text-white shadow-lg transition hover:brightness-105"
+        className="mt-5 w-full rounded-full bg-[var(--accent)] py-3 font-semibold text-white shadow-md transition hover:brightness-[1.06]"
         onClick={submit}
       >
         Sign in

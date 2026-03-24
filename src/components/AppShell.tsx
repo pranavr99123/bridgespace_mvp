@@ -58,8 +58,8 @@ function PartnerAddModal({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-4" role="dialog">
-      <div className="card max-w-md w-full border-[var(--accent-2)]/30 bg-[var(--panel)] p-5 shadow-2xl">
-        <h2 className="text-lg font-semibold text-[var(--accent-2)]">Add your partner</h2>
+      <div className="card max-w-md w-full border-[var(--card-border)] bg-[var(--panel)] p-5 shadow-2xl">
+        <h2 className="text-lg font-semibold text-[var(--foreground)]">Add your partner</h2>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Save their name for when they join. Optionally send an email invite—they won’t appear in the top menu until you confirm they’ve joined (on Home).
         </p>
@@ -84,7 +84,7 @@ function PartnerAddModal({
           </button>
           <button
             type="button"
-            className="rounded-full bg-gradient-to-r from-[#5dd9b9] to-[#7c9cff] px-3 py-2 text-sm font-medium text-white"
+            className="rounded-full bg-[var(--accent)] px-3 py-2 text-sm font-medium text-white hover:brightness-[1.06]"
             disabled={busy}
             onClick={save}
           >
@@ -128,7 +128,7 @@ function Header() {
       >
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4">
           <div>
-            <p className="bg-gradient-to-r from-[var(--accent-gold)] via-[var(--accent-pink)] to-[var(--accent-2)] bg-clip-text text-sm font-bold tracking-wide text-transparent">
+            <p className="text-sm font-bold tracking-wide text-[var(--foreground)]">
               Bridgespace
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-1 text-xs text-[var(--muted)]">
@@ -136,7 +136,7 @@ function Header() {
               {showPartnerPlus && (
                 <button
                   type="button"
-                  className="ml-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-[#ff8f7a]/30 to-[#7c9cff]/30 text-[var(--accent)] hover:from-[#ff8f7a]/50 hover:to-[#7c9cff]/40"
+                  className="ml-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border border-[var(--card-border)] bg-[var(--panel-soft)] text-[var(--accent)] hover:bg-[var(--panel)] hover:ring-1 hover:ring-[var(--accent)]/35"
                   title="Add or invite partner"
                   aria-label="Add or invite partner"
                   onClick={() => setAddOpen(true)}
@@ -161,7 +161,7 @@ function Header() {
                   href={link.href}
                   className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
                     active
-                      ? "bg-gradient-to-r from-[#7c9cff] to-[#5dd9b9] text-white shadow-md"
+                      ? "bg-[var(--accent)] text-white shadow-sm"
                       : "bg-[var(--panel-soft)] text-[var(--foreground)] hover:ring-1 hover:ring-[var(--accent)]/40"
                   }`}
                 >
@@ -173,8 +173,8 @@ function Header() {
               href="/settings"
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
                 pathname.startsWith("/settings")
-                  ? "bg-gradient-to-r from-[#ffd17a] to-[#ff8f7a] text-[#3a1a0d] shadow-md"
-                  : "bg-[var(--panel-soft)] text-[var(--foreground)] hover:ring-1 hover:ring-[var(--accent-warm)]/40"
+                  ? "bg-[var(--accent-2)] text-white shadow-sm"
+                  : "bg-[var(--panel-soft)] text-[var(--foreground)] hover:ring-1 hover:ring-[var(--accent)]/40"
               }`}
             >
               Settings
